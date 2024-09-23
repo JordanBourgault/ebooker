@@ -1,5 +1,6 @@
 import os
 import requests
+import re
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -33,17 +34,16 @@ def extract_html(url, section_name):
         with open(f'raw_html/{section_name}.html') as file:
             html = file.read()
 
-    chapters = section_name.split("-")
-    chapters_html = split_chapters(html, len(chapters))
+    chapters_html, chapters_titles = split_chapters(html)
 
     for i in range(len(chapters_html)):
-        yield (chapters[i], chapters_html[i])
+        yield (chapters_titles[i], chapters_html[i])
 
 
 def trim_content(html):
     html_lines = html.splitlines()
-    block_spacer_indices = [i for i in range(len(html_lines)) if 'wp-block-spacer' in html_lines[i]]
-    html_lines = html_lines[block_spacer_indices[0]:block_spacer_indices[-2]]
+    block_separator_indices = [i for i in range(len(html_lines)) if 'wp-block-separator' in html_lines[i]]
+    html_lines = html_lines[block_separator_indices[0]:block_separator_indices[-1]-2]
     return "\n".join(html_lines)
 
 
@@ -60,36 +60,36 @@ def replace_ext_images(html, images):
             html = html.replace(src, f'./static/{img_name}')
     return html
 
-def split_chapters(html, num_chapters):
-    if num_chapters == 1:
-        return [html]
-    
+def split_chapters(html):
     chapters = []
     html_lines = html.splitlines()
     chapter_indices = [i for i in range(len(html_lines)) if chapter_match(html_lines[i])]
+    print(chapter_indices)
+    chapter_names = []
+    for index in chapter_indices:
+        line = html_lines[index]
+        chapter_title = re.split('>|<', line)[2]
+        chapter_names.append(chapter_title)
 
-    if len(chapter_indices) == num_chapters:
-        # First chapter
-        chapter_html = html_lines[0:chapter_indices[1]-1]
-        chapters.append("\n".join(chapter_html))
+    # First chapter
+    chapter_html = html_lines[0:chapter_indices[1]-1]
+    chapters.append("\n".join(chapter_html))
 
-        # Middle chapters
-        if len(chapter_indices) > 2:
-            for i in range(1, len(chapter_indices) - 1):
-                chapter_html = html_lines[chapter_indices[i]-1:chapter_indices[i+1]-2]
-                chapters.append("\n".join(chapter_html))
-        
-        # Last chapter
-        chapter_html = html_lines[chapter_indices[-1]-1:]
-        chapters.append("\n".join(chapter_html))
-    else:
-        print('No matching chapters found!!!')
-        chapters = html
+    # Middle chapters
+    if len(chapter_indices) > 2:
+        for i in range(1, len(chapter_indices) - 1):
+            print(i)
+            chapter_html = html_lines[chapter_indices[i]-1:chapter_indices[i+1]-2]
+            chapters.append("\n".join(chapter_html))
     
-    return chapters
+    # Last chapter
+    chapter_html = html_lines[chapter_indices[-1]-1:]
+    chapters.append("\n".join(chapter_html))
+
+    return chapters, chapter_names
 
 def chapter_match(line):
-    if 'wp-block-heading' in line:
-        if 'Chapter' in line or 'Prologue' in line or 'Preface' in line or 'Interlude' in line:
+    if 'wp-block-heading' in line and 'h3' in line:
+        if ('Chapter' in line) or ('Prologue' in line) or ('Preface' in line) or ('Interlude') in line or ('Day' in line) or ('Dedication' in line):
             return True
     return False

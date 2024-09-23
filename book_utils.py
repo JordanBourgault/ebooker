@@ -19,7 +19,9 @@ class epubBook:
         self.book.toc = (self.book.spine[1:])
 
     def write_chapter(self, chapter_name, chapter_content):
-        chapter = epub.EpubHtml(title=chapter_name, file_name=f"{chapter_name}.xhtml", lang="hr")
+        print(f'Writing {chapter_name}')
+        chapter_file = self.remove_illegal_characters(chapter_name)
+        chapter = epub.EpubHtml(title=chapter_name, file_name=f"{chapter_file}.xhtml", lang="hr")
         chapter.content = chapter_content
 
         for image in os.listdir('./static'):
@@ -45,3 +47,7 @@ class epubBook:
         self.book.add_item(epub.EpubNcx())
         self.book.add_item(epub.EpubNav())
         epub.write_epub(f"{title}.epub", self.book, {})
+
+
+    def remove_illegal_characters(self, string):
+        return ''.join(e for e in string if e.isalnum())
