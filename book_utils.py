@@ -3,6 +3,8 @@ import os
 
 
 class epubBook:
+    images = []
+
     def __init__(self):
         self.book = epub.EpubBook()
         self.set_info()
@@ -25,7 +27,7 @@ class epubBook:
         chapter.content = chapter_content
 
         for image in os.listdir('./static'):
-            if image in chapter.content:
+            if (image not in self.images) and (image in chapter.content):
                 with open(f'./static/{image}', 'rb') as i:
                     content = i.read()
                     type = image.split('.')[-1]
@@ -36,6 +38,7 @@ class epubBook:
                         content=content
                     )
                     self.book.add_item(img)
+                    self.images.append(image)
         
         self.book.add_item(chapter)
         self.book.spine.append(chapter)

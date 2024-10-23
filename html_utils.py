@@ -10,7 +10,8 @@ def html_section_exists(section_name):
     return os.path.isfile(f'raw_html/{section_name}.html')
 
 
-def extract_html(url, section_name):
+def extract_html(url):
+    section_name = url.split('/')[-2]
     if not html_section_exists(section_name):
         options = Options()
         options.add_argument('--headless=new')
@@ -64,7 +65,6 @@ def split_chapters(html):
     chapters = []
     html_lines = html.splitlines()
     chapter_indices = [i for i in range(len(html_lines)) if chapter_match(html_lines[i])]
-    print(chapter_indices)
     chapter_names = []
     for index in chapter_indices:
         line = html_lines[index]
@@ -78,7 +78,6 @@ def split_chapters(html):
     # Middle chapters
     if len(chapter_indices) > 2:
         for i in range(1, len(chapter_indices) - 1):
-            print(i)
             chapter_html = html_lines[chapter_indices[i]-1:chapter_indices[i+1]-2]
             chapters.append("\n".join(chapter_html))
     
