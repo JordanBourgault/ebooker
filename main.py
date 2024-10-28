@@ -18,7 +18,6 @@ chapters = [
 ]
 
 book = epubBook()
-create_dirs()
 for url in chapters:
     chapters = extract_html(url)
     for chapter in chapters:

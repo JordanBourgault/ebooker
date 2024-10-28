@@ -11,11 +11,13 @@ def create_dirs():
     Path("./static").mkdir(parents=True, exist_ok=True)
     Path("./raw_html").mkdir(parents=True, exist_ok=True)
 
+
 def html_section_exists(section_name):
     return os.path.isfile(f'raw_html/{section_name}.html')
 
 
 def extract_html(url):
+    create_dirs()
     section_name = url.split('/')[-2]
     if not html_section_exists(section_name):
         options = Options()
