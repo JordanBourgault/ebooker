@@ -10,7 +10,6 @@ class epubBook:
         self.set_info()
 
     def set_info(self):
-        self.book.set_cover('static/Wind-and-Truth_cover-small.jpg', open('./static/Wind-and-Truth_cover-small.jpg', 'rb').read())
         self.book.set_identifier("id123456")
         self.book.set_title("Wind and Truth")
         self.book.set_language("en")
@@ -45,6 +44,7 @@ class epubBook:
 
 
     def publish_book(self, title):
+        self.book.set_cover('static/Wind-and-Truth_cover-small.jpg', open('./static/Wind-and-Truth_cover-small.jpg', 'rb').read())
         self.add_toc()
         # add default NCX and Nav file
         self.book.add_item(epub.EpubNcx())

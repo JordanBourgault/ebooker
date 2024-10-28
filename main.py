@@ -1,4 +1,4 @@
-from html_utils import extract_html
+from html_utils import extract_html, create_dirs
 from book_utils import epubBook
 
 chapters = [
@@ -18,6 +18,7 @@ chapters = [
 ]
 
 book = epubBook()
+create_dirs()
 for url in chapters:
     chapters = extract_html(url)
     for chapter in chapters:

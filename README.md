@@ -9,8 +9,10 @@ This project uses selenium library to render the website content in a headless m
 This project also includes a caching mechanism so that only the new content is downloaded on successive runs.
 
 ## Setup
-1. `python -m venv venv`
-2. `python -m pip install -r requirements`
+1. Install a recent python version (tested with [3.10](https://www.python.org/downloads/))
+2. Create a python virtual environment `python -m venv venv`
+3. Activate the virtual envirnoment (`source venv/bin/activate` for linux, `.\venv\Scripts\Activate.ps1` for windows, ...)
+4. Install the requirements `pip install -r requirements`
 
 ## Generating the book
 Simply run `python main.py` from the virtual environment.

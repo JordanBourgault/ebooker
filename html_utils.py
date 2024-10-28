@@ -1,10 +1,15 @@
 import os
 import requests
 import re
+from pathlib import Path
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+
+def create_dirs():
+    Path("/static").mkdir(parents=True, exist_ok=True)
+    Path("/raw_html").mkdir(parents=True, exist_ok=True)
 
 def html_section_exists(section_name):
     return os.path.isfile(f'raw_html/{section_name}.html')
