@@ -24,8 +24,6 @@ def extract_html(url):
         driver.get(url)
         element = driver.find_element(By.CLASS_NAME, 'js-article-content')
         html = str(element.get_attribute('innerHTML'))
-        # with open(f'raw/{section_name}.html', 'w') as file:
-        #     file.write(html)
 
         html = trim_content(html)
         images = driver.find_elements(By.TAG_NAME, 'img')
