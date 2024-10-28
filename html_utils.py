@@ -31,13 +31,13 @@ def extract_html(url):
         images = driver.find_elements(By.TAG_NAME, 'img')
         html = replace_ext_images(html, images)
 
-        with open(f'raw_html/{section_name}.html', 'w') as file:
+        with open(f'raw_html/{section_name}.html', 'w', encoding='utf-8') as file:
             file.write(html)
         
-        with open('raw_html/book.html', 'a') as file:
+        with open('raw_html/book.html', 'a', encoding='utf-8') as file:
             file.write(html)
     else:
-        with open(f'raw_html/{section_name}.html') as file:
+        with open(f'raw_html/{section_name}.html', encoding='utf-8') as file:
             html = file.read()
 
     chapters_html, chapters_titles = split_chapters(html)
