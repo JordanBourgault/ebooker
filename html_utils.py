@@ -50,7 +50,20 @@ def trim_content(html):
     html_lines = html.splitlines()
     block_separator_indices = [i for i in range(len(html_lines)) if 'wp-block-separator' in html_lines[i]]
     html_lines = html_lines[block_separator_indices[0]:block_separator_indices[-1]-2]
+    remove_bad_newlines(html_lines)
     return "\n".join(html_lines)
+
+
+def remove_bad_newlines(html_lines):
+    offset = 0
+    i = 0
+    while i < len(html_lines) - offset:
+        index = i + offset
+        if html_lines[index][0] != '<':
+            html_lines[index-1] += html_lines[index]
+            html_lines.pop(index)
+            offset += 1
+        i += 1
 
 
 def replace_ext_images(html, images):

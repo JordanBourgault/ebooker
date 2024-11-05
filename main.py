@@ -14,7 +14,9 @@ chapters = [
     "https://reactormag.com/read-wind-and-truth-by-brandon-sanderson-chapters-16-17-and-18/",
     "https://reactormag.com/read-wind-and-truth-by-brandon-sanderson-chapters-19-and-20/",
     "https://reactormag.com/read-wind-and-truth-by-brandon-sanderson-chapters-21-and-22/",
-    "https://reactormag.com/read-wind-and-truth-by-brandon-sanderson-chapters-23-and-24/"
+    "https://reactormag.com/read-wind-and-truth-by-brandon-sanderson-chapters-23-and-24/",
+    "https://reactormag.com/read-wind-and-truth-by-brandon-sanderson-chapters-25-and-26/",
+    "https://reactormag.com/read-wind-and-truth-by-brandon-sanderson-chapters-27-and-28/"
 ]
 
 book = epubBook()
