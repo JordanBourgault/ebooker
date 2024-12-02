@@ -106,7 +106,8 @@ def split_chapters(html):
     return chapters, chapter_names
 
 def chapter_match(line):
+    keywords = ['Chapter', 'Prologue', 'Preface', 'Interlude', 'Day', 'Dedication']
     if 'wp-block-heading' in line and 'h3' in line:
-        if ('Chapter' in line) or ('Prologue' in line) or ('Preface' in line) or ('Interlude') in line or ('Day' in line) or ('Dedication' in line):
+        if any(keyword in line for keyword in keywords):
             return True
     return False
